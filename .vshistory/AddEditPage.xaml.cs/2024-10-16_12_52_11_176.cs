@@ -21,11 +21,9 @@ namespace Abdeev_Autoservice
     public partial class AddEditPage : Page
     {
         private Service _currentService = new Service();
-        public AddEditPage(Service SelectedService)
+        public AddEditPage()
         {
             InitializeComponent();
-            if (SelectedService != null)
-                _currentService = SelectedService;
             DataContext = _currentService;
             _currentService.Discount = 0;
         }

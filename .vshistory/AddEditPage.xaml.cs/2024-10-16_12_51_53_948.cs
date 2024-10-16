@@ -21,11 +21,9 @@ namespace Abdeev_Autoservice
     public partial class AddEditPage : Page
     {
         private Service _currentService = new Service();
-        public AddEditPage(Service SelectedService)
+        public AddEditPage()
         {
             InitializeComponent();
-            if (SelectedService != null)
-                _currentService = SelectedService;
             DataContext = _currentService;
             _currentService.Discount = 0;
         }
@@ -48,7 +46,7 @@ namespace Abdeev_Autoservice
                 MessageBox.Show(errors.ToString());
                 return;
             }
-            if (_currentService.ID == 0)
+            if (_currentService.ID ==0)
                 Abdeev_autoserviceEntities.GetContext().Service.Add(_currentService);
             try
             {
@@ -60,6 +58,5 @@ namespace Abdeev_Autoservice
             {
                 MessageBox.Show(ex.Message.ToString());
             }
-        }
     }
 }

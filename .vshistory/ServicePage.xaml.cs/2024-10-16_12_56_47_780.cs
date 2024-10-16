@@ -56,6 +56,11 @@ namespace Abdeev_Autoservice
             
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage());
+        }
+
         private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateServices();
