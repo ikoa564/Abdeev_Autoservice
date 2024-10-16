@@ -28,23 +28,23 @@ namespace Abdeev_Autoservice
 
             ComboType.SelectedIndex = 0;
 
-            UpdateServices();
+            UpdateServices()
         }
         private void UpdateServices()
         {
             var currentSevices = Abdeev_autoserviceEntities.GetContext().Service.ToList();
             if(ComboType.SelectedIndex == 0)
-                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0 && Convert.ToDouble(p.Discount) <=1)).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToInt32(p.Discount) >= 0 && Convert.ToInt32(p.Discount) <=100)).ToList();
             if(ComboType.SelectedIndex == 1)
-                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0 && Convert.ToDouble(p.Discount) < 0.05)).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToInt32(p.Discount) >= 0 && Convert.ToInt32(p.Discount) < 5)).ToList();
             if(ComboType.SelectedIndex == 2)
-                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0.05 && Convert.ToDouble(p.Discount) < 0.15)).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToInt32(p.Discount) >= 5 && Convert.ToInt32(p.Discount) < 15)).ToList();
             if(ComboType.SelectedIndex == 3)
-                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0.15 && Convert.ToDouble(p.Discount) < 0.30)).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToInt32(p.Discount) >= 15 && Convert.ToInt32(p.Discount) < 30)).ToList();
             if(ComboType.SelectedIndex == 4)
-                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0.30 && Convert.ToDouble(p.Discount) < 0.70)).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToInt32(p.Discount) >= 30 && Convert.ToInt32(p.Discount) < 70)).ToList();
             if(ComboType.SelectedIndex == 5)
-                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0.70 && Convert.ToDouble(p.Discount) <= 1)).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToInt32(p.Discount) >= 70 && Convert.ToInt32(p.Discount) <=100)).ToList();
             currentSevices = currentSevices.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
 
             ServiceListView.ItemsSource = currentSevices.ToList();
@@ -63,22 +63,22 @@ namespace Abdeev_Autoservice
 
         private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UpdateServices();
+            UpdateServices()
         }
 
         private void RButtonUp_Checked(object sender, RoutedEventArgs e)
         {
-            UpdateServices();
+            UpdateServices()
         }
 
         private void RButtonDown_Checked(object sender, RoutedEventArgs e)
         {
-            UpdateServices();
+            UpdateServices()
         }
 
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateServices();
+            UpdateServices()
         }
     }
 }

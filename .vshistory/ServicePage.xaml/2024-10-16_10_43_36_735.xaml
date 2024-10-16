@@ -17,7 +17,7 @@
         <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel Margin="10" Orientation="Horizontal">
                 <TextBlock Text="Введите название для поиска " TextAlignment="Right" Width="300" FontSize="20"></TextBlock>
-                <TextBox Name="TBoxSearch" TextChanged="TBoxSearch_TextChanged" Width="300" FontSize="15"></TextBox>
+                <TextBlock Name="TBoxSearch" DataContextChanged="TBoxSearch_DataContextChanged" Width="300" FontSize="20"></TextBlock>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="10">
@@ -36,8 +36,7 @@
             <RadioButton Content="По возврастанию стоимости" GroupName="Sort" Width="300" FontSize="20" Checked="RButtonUp_Checked"  Name="RButtonUp"></RadioButton>
             <RadioButton Content="По убыванию стоимости" GroupName="Sort" Width="300" FontSize="20" Checked="RButtonDown_Checked"  Name="RButtonDown"></RadioButton>
         </StackPanel>
-
-        <ListView Name="ServiceListView" Grid.Row="2">
+        <ListView Name="ServiceListView" >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
