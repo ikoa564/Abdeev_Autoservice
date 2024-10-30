@@ -27,7 +27,7 @@ namespace Abdeev_Autoservice
             if (SelectedService != null)
                 _currentService = SelectedService;
             DataContext = _currentService;
-            _currentService.DiscountInt = 0;
+            _currentService.Discount = 0;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -38,7 +38,7 @@ namespace Abdeev_Autoservice
                 errors.AppendLine("Укажите название услуги");
             if (_currentService.Cost <= 0)
                 errors.AppendLine("Укажите верную стоимость услуги");
-            if (_currentService.DiscountInt < 0 || _currentService.DiscountInt > 100)
+            if (_currentService.Discount < 0)
                 errors.AppendLine("Укажите верную скидку");
             if (string.IsNullOrWhiteSpace(_currentService.Duration))
                 errors.AppendLine("Укажите длительность услуги");

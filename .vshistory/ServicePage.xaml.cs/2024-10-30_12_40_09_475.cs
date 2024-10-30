@@ -66,7 +66,7 @@ namespace Abdeev_Autoservice
                     case 2:
                         if (CurrentPage < CountPage - 1)
                         {
-                            CurrentPage++;
+                            CurrentPage--;
                             min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
                             for (int i = CurrentPage * 10; i < min; i++)
                                 CurrentPageList.Add(TableList[i]);
@@ -128,6 +128,7 @@ namespace Abdeev_Autoservice
             ServiceListView.ItemsSource = currentSevices;
             TableList = currentSevices;
             ChangePage(0, 0);
+
         }
 
         private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -167,7 +168,6 @@ namespace Abdeev_Autoservice
                 Abdeev_autoserviceEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
                 ServiceListView.ItemsSource = Abdeev_autoserviceEntities.GetContext().Service.ToList();
             }
-            UpdateServices();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)

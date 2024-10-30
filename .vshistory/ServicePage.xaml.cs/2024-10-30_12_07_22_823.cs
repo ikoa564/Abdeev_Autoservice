@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,76 +20,6 @@ namespace Abdeev_Autoservice
     /// </summary>
     public partial class ServicePage : Page
     {
-        int CountRecords;
-        int CountPage;
-        int CurrentPage = 0;
-        List<Service> CurrentPageList = new List<Service>();
-        List<Service> TableList;
-
-        private void ChangePage(int direction, int? selectedPage)
-        {
-            CurrentPageList.Clear();
-            CountRecords = TableList.Count;
-            if (CountRecords % 10 > 0)
-                CountPage = CountRecords / 10 + 1;
-            else
-                CountPage = CountRecords / 10;
-
-            Boolean ifUpdate = true;
-            int min;
-            if (selectedPage.HasValue)
-            {
-                if (selectedPage >= 0 && selectedPage <= CountPage)
-                {
-                    CurrentPage = (int)selectedPage;
-                    min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
-                    for (int i = CurrentPage * 10; i < min; i++)
-                        CurrentPageList.Add(TableList[i]);
-                }
-            }
-            else
-            {
-                switch (direction)
-                {
-                    case 1:
-                        if (CurrentPage > 0)
-                        {
-                            CurrentPage--;
-                            min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
-                            for (int i = CurrentPage * 10; i < min; i++)
-                                CurrentPageList.Add(TableList[i]);
-                        }
-                        else
-                            ifUpdate = false;
-                        break;
-                    case 2:
-                        if (CurrentPage < CountPage - 1)
-                        {
-                            CurrentPage++;
-                            min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
-                            for (int i = CurrentPage * 10; i < min; i++)
-                                CurrentPageList.Add(TableList[i]);
-                        }
-                        else
-                            ifUpdate = false;
-                        break;
-                }
-            }
-            if (ifUpdate)
-            {
-                PageListBox.Items.Clear();
-                for (int i = 1; i <= CountPage; i++)
-                    PageListBox.Items.Add(i);
-                PageListBox.SelectedIndex = CurrentPage;
-
-                min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
-                TBCount.Text = min.ToString();
-                TBAllRecords.Text = " из " + CountRecords.ToString();
-
-                ServiceListView.ItemsSource = CurrentPageList;
-                ServiceListView.Items.Refresh();
-            }
-        }
         public ServicePage()
         {
             InitializeComponent();
@@ -121,13 +50,10 @@ namespace Abdeev_Autoservice
             ServiceListView.ItemsSource = currentSevices.ToList();
 
             if (RButtonDown.IsChecked.Value)
-               currentSevices = currentSevices.OrderByDescending(p => p.Cost).ToList();
+                ServiceListView.ItemsSource = currentSevices.OrderByDescending(p => p.Cost).ToList();
             if (RButtonUp.IsChecked.Value)
-               currentSevices = currentSevices.OrderBy(p => p.Cost).ToList();
+                ServiceListView.ItemsSource = currentSevices.OrderBy(p => p.Cost).ToList();
 
-            ServiceListView.ItemsSource = currentSevices;
-            TableList = currentSevices;
-            ChangePage(0, 0);
         }
 
         private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -167,7 +93,6 @@ namespace Abdeev_Autoservice
                 Abdeev_autoserviceEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
                 ServiceListView.ItemsSource = Abdeev_autoserviceEntities.GetContext().Service.ToList();
             }
-            UpdateServices();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -196,20 +121,9 @@ namespace Abdeev_Autoservice
             }
         }
 
-        private void LeftDirButton_Click(object sender, RoutedEventArgs e)
+        private void LeftDirButton_Click()
         {
-            ChangePage(1, null);
-        }
 
-        private void RightDirButton_Click(object sender, RoutedEventArgs e)
-        {
-            ChangePage(2, null);
-
-        }
-
-        private void PageListBox_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            ChangePage(0, Convert.ToInt32(PageListBox.SelectedItem.ToString()) - 1);
         }
     }
 }

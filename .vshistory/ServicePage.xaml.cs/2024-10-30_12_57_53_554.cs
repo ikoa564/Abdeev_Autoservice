@@ -128,6 +128,8 @@ namespace Abdeev_Autoservice
             ServiceListView.ItemsSource = currentSevices;
             TableList = currentSevices;
             ChangePage(0, 0);
+            UpdateServices();
+
         }
 
         private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -167,7 +169,6 @@ namespace Abdeev_Autoservice
                 Abdeev_autoserviceEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
                 ServiceListView.ItemsSource = Abdeev_autoserviceEntities.GetContext().Service.ToList();
             }
-            UpdateServices();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
