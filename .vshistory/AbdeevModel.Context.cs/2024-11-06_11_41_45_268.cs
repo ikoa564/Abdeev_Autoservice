@@ -15,15 +15,6 @@ namespace Abdeev_Autoservice
     
     public partial class Abdeev_autoserviceEntities : DbContext
     {
-        private static Abdeev_autoserviceEntities _context;
-        public static Abdeev_autoserviceEntities GetContext()
-        {
-
-            if (_context == null)
-                _context = new Abdeev_autoserviceEntities();
-            return _context;
-        }
-
         public Abdeev_autoserviceEntities()
             : base("name=Abdeev_autoserviceEntities")
         {

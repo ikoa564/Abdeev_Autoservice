@@ -116,9 +116,6 @@
     <Compile Include="ServicePhoto.cs">
       <DependentUpon>AbdeevModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="SignUpPage.xaml.cs">
-      <DependentUpon>SignUpPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Tag.cs">
       <DependentUpon>AbdeevModel.tt</DependentUpon>
     </Compile>
@@ -139,10 +136,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ServicePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SignUpPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,6 +179,16 @@
     <Resource Include="res\service_logo.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AbdeevModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AbdeevModel.Context.cs</LastGenOutput>
+      <DependentUpon>AbdeevModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="AbdeevModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AbdeevModel.edmx</DependentUpon>
+      <LastGenOutput>AbdeevModel.cs</LastGenOutput>
+    </Content>
     <Resource Include="res\picture.png" />
     <Resource Include="Услуги автосервиса\diz.jpg" />
     <Resource Include="Услуги автосервиса\rulevoe-upravlenie-avtomobilya.jpg" />
@@ -207,18 +210,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="AbdeevModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AbdeevModel.edmx</DependentUpon>
-      <LastGenOutput>AbdeevModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="AbdeevModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AbdeevModel.edmx</DependentUpon>
-      <LastGenOutput>AbdeevModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

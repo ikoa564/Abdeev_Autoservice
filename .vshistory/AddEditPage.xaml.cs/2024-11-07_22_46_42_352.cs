@@ -25,9 +25,7 @@ namespace Abdeev_Autoservice
         {
             InitializeComponent();
             if (SelectedService != null)
-            {
                 _currentService = SelectedService;
-            }
             DataContext = _currentService;
             _currentService.DiscountInt = 0;
         }
@@ -50,9 +48,9 @@ namespace Abdeev_Autoservice
                 MessageBox.Show(errors.ToString());
                 return;
             }
-            var allServices = Abdeev_autoserviceEntities.GetContext().Service
-                    .Where(p => p.Title.ToLower() == _currentService.Title.ToLower() && p.ID != _currentService.ID)
-                    .ToList();
+
+            var allServices = Abdeev_autoserviceEntities.GetContext().Service.ToList();
+            allServices = allServices.Where(p => p.Title == _currentService.Title).ToList();
             if (allServices.Count == 0)
             {
                 if (_currentService.ID == 0)

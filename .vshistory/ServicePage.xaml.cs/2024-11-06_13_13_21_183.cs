@@ -166,9 +166,8 @@ namespace Abdeev_Autoservice
             {
                 Abdeev_autoserviceEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
                 ServiceListView.ItemsSource = Abdeev_autoserviceEntities.GetContext().Service.ToList();
-                UpdateServices();
-
             }
+            UpdateServices();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)

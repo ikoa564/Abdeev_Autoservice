@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,8 +95,8 @@ namespace Abdeev_Autoservice
         public ServicePage()
         {
             InitializeComponent();
-            var currentServices = Abdeev_autoserviceEntities.GetContext().Service.ToList();
-            ServiceListView.ItemsSource = currentServices;
+            var currentSevices = Abdeev_autoserviceEntities.GetContext().Service.ToList();
+            ServiceListView.ItemsSource = currentSevices;
 
             ComboType.SelectedIndex = 0;
 
@@ -103,30 +104,30 @@ namespace Abdeev_Autoservice
         }
         private void UpdateServices()
         {
-            var currentServices = Abdeev_autoserviceEntities.GetContext().Service.ToList();
+            var currentSevices = Abdeev_autoserviceEntities.GetContext().Service.ToList();
             if (ComboType.SelectedIndex == 0)
-                currentServices = currentServices.Where(p => (Convert.ToDouble(p.Discount) >= 0 && Convert.ToDouble(p.Discount) <= 1)).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0 && Convert.ToDouble(p.Discount) <= 1)).ToList();
             if (ComboType.SelectedIndex == 1)
-                currentServices = currentServices.Where(p => (Convert.ToDouble(p.Discount) >= 0 && Convert.ToDouble(p.Discount) < 0.05)).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0 && Convert.ToDouble(p.Discount) < 0.05)).ToList();
             if (ComboType.SelectedIndex == 2)
-                currentServices = currentServices.Where(p => (Convert.ToDouble(p.Discount) >= 0.05 && Convert.ToDouble(p.Discount) < 0.15)).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0.05 && Convert.ToDouble(p.Discount) < 0.15)).ToList();
             if (ComboType.SelectedIndex == 3)
-                currentServices = currentServices.Where(p => (Convert.ToDouble(p.Discount) >= 0.15 && Convert.ToDouble(p.Discount) < 0.30)).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0.15 && Convert.ToDouble(p.Discount) < 0.30)).ToList();
             if (ComboType.SelectedIndex == 4)
-                currentServices = currentServices.Where(p => (Convert.ToDouble(p.Discount) >= 0.30 && Convert.ToDouble(p.Discount) < 0.70)).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0.30 && Convert.ToDouble(p.Discount) < 0.70)).ToList();
             if (ComboType.SelectedIndex == 5)
-                currentServices = currentServices.Where(p => (Convert.ToDouble(p.Discount) >= 0.70 && Convert.ToDouble(p.Discount) <= 1)).ToList();
-            currentServices = currentServices.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
+                currentSevices = currentSevices.Where(p => (Convert.ToDouble(p.Discount) >= 0.70 && Convert.ToDouble(p.Discount) <= 1)).ToList();
+            currentSevices = currentSevices.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
 
-            ServiceListView.ItemsSource = currentServices.ToList();
+            ServiceListView.ItemsSource = currentSevices.ToList();
 
             if (RButtonDown.IsChecked.Value)
-               currentServices = currentServices.OrderByDescending(p => p.Cost).ToList();
+               currentSevices = currentSevices.OrderByDescending(p => p.Cost).ToList();
             if (RButtonUp.IsChecked.Value)
-               currentServices = currentServices.OrderBy(p => p.Cost).ToList();
+               currentSevices = currentSevices.OrderBy(p => p.Cost).ToList();
 
-            ServiceListView.ItemsSource = currentServices;
-            TableList = currentServices;
+            ServiceListView.ItemsSource = currentSevices;
+            TableList = currentSevices;
             ChangePage(0, 0);
         }
 
@@ -164,11 +165,25 @@ namespace Abdeev_Autoservice
         {
             if (Visibility == Visibility.Visible)
             {
-                Abdeev_autoserviceEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
-                ServiceListView.ItemsSource = Abdeev_autoserviceEntities.GetContext().Service.ToList();
-                UpdateServices();
+                try
+                {
+                    // Избегаем возможности исключения при перезагрузке
+                    var entries = Abdeev_autoserviceEntities.GetContext().ChangeTracker.Entries().ToList();
+                    // Обновление только тех записей, которые находятся под контролем
+                    foreach (var entry in entries.Where(p => p.State == EntityState.Modified || p.State == EntityState.Added))
+                    {
+                        entry.Reload();
+                    }
 
+                    ServiceListView.ItemsSource = Abdeev_autoserviceEntities.GetContext().Service.ToList();
+                }
+                catch (Exception ex)
+                {
+                    // Логирование исключения или отображение пользователю
+                    MessageBox.Show($"Ошибка при обновлении данных: {ex.Message}");
+                }
             }
+            UpdateServices();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)

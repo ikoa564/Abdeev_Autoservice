@@ -11,8 +11,7 @@ namespace Abdeev_Autoservice
 {
     using System;
     using System.Collections.Generic;
-    using System.Windows.Media;
-
+    
     public partial class Service
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -43,39 +42,6 @@ namespace Abdeev_Autoservice
             set
             {
                 this.Discount = Convert.ToDouble(value) / 100;
-            }
-        }
-
-        public string OldCost
-        {
-            get
-            {
-                if (DiscountInt > 0)
-                    return Cost.ToString();
-                else
-                    return "";
-            }
-        }
-
-        public decimal NewCost
-        {
-            get
-            {
-                if (DiscountInt > 0)
-                    return ((decimal)Cost - (decimal)Cost * (decimal)DiscountInt / 100);
-                else
-                    return (decimal)Cost;
-            }
-        }
-
-        public SolidColorBrush FonStyle
-        {
-            get
-            {
-                if (DiscountInt > 0)
-                    return (SolidColorBrush)new BrushConverter().ConvertFromString("LightGreen");
-                else
-                    return (SolidColorBrush)new BrushConverter().ConvertFromString("White");
             }
         }
 
